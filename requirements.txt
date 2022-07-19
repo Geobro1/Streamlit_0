@@ -31,7 +31,6 @@ executing==0.8.3
 fastjsonschema==2.15.3
 fonttools==4.34.4
 future==0.18.2
-GDAL @ file:///C:/Users/ROWE6686/OneDrive/Documents/Python/GDAL-3.4.3-cp39-cp39-win_amd64.whl
 gitdb==4.0.9
 GitPython==3.1.27
 idna==3.3
