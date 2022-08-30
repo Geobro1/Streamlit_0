@@ -10,6 +10,8 @@ pygam==0.8.0
 statsmodels==0.13.2
 streamlit==1.10.0
 streamlit-aggrid==0.2.3.post2
+fiona==1.8.21
+https://github.com/PyOSP-devs/PyOSP
 --find-links=https://girder.github.io/large_image_wheels GDAL
 geemap
 geopandas
