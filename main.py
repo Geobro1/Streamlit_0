@@ -170,7 +170,8 @@ def main():
 
             # Customizable Plot
 
-                type_of_plot = st.selectbox("Select Type of Plot", ["area", "bar", "line", "hist", "box", "kde"]
+                type_of_plot = st.selectbox("Select Type of Plot", ["area", "bar", "line", "histogram", "box", "kde"]
+
 
                 if st.button("Generate Plot"):
                     st.success("Generating Customizable Plot of {} for {}".format(type_of_plot, selected_columns_names))
@@ -205,11 +206,12 @@ def main():
                         # Below for cursor options/crosshairs
                         st.plotly_chart(fig5)
                     elif type_of_plot == 'kde':
-                        fig5 = px.histogram(df, x=x_choice, y=y_choice, color=category_choice, opacity=0.5,
+                        fig6 = px.histogram(df, x=x_choice, y=y_choice, color=category_choice, opacity=0.5,
                                          marginal="box", template=theme_choice, hover_data=df.columns)
                         # alternatively use box or violin for marginals
                         # Below for cursor options/crosshairs
-                        st.plotly_chart(fig5)
+                        st.plotly_chart(fig6)
+
 
         elif choice == 'Design Lines':
             st.subheader("Design Lines")
