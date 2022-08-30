@@ -19,8 +19,7 @@ import statsmodels.formula.api as smf
 from st_aggrid import AgGrid
 import streamlit.components.v1 as components
 from pivottablejs import pivot_ui
-from streamlit_option_menu import option_menu
-from apps import home, heatmap, upload  # import your app modules here
+
 
 st.set_page_config(layout="wide")
 
@@ -541,6 +540,8 @@ def main():
                             plt.savefig(img, format='png')
         elif choice == 'Geemaps':
             st.subheader("Geemaps")
+            from streamlit_option_menu import option_menu
+            from apps import home, heatmap, upload  # import your app modules here
             apps = [{"func": home.app, "title": "Home", "icon": "house"},
                     {"func": heatmap.app, "title": "Heatmap", "icon": "map"},
                     {"func": upload.app, "title": "Upload", "icon": "cloud-upload"},
