@@ -19,6 +19,8 @@ import statsmodels.formula.api as smf
 from st_aggrid import AgGrid
 import streamlit.components.v1 as components
 from pivottablejs import pivot_ui
+from streamlit_option_menu import option_menu
+from apps import home, heatmap, upload  # import your app modules here
 
 st.set_page_config(layout="wide")
 
@@ -39,7 +41,7 @@ def main():
 
         st.title("Geotechnical Data Analysis")
         st.text("Using Streamlit == 1.11.0")
-        activities = ["EDA", "Plots", "Design Lines", "About"]
+        activities = ["EDA", "Plots", "Design Lines", "Geemaps", "About"]
         choice = st.sidebar.selectbox("Select Activities", activities)
 
 
@@ -168,28 +170,46 @@ def main():
 
             # Customizable Plot
 
-                all_columns_names = df.columns.tolist()
-                type_of_plot = st.selectbox("Select Type of Plot", ["area", "bar", "line", "hist", "box", "kde"])
-                selected_columns_names = st.multiselect("Select Columns To Plot", all_columns_names)
+                type_of_plot = st.selectbox("Select Type of Plot", ["area", "bar", "line", "hist", "box", "kde"]
 
                 if st.button("Generate Plot"):
                     st.success("Generating Customizable Plot of {} for {}".format(type_of_plot, selected_columns_names))
                     if type_of_plot == 'area':
-                        cust_data = df[selected_columns_names]
-                        st.area_chart(cust_data)
+                        fig = px.area(df, x=x_choice, y=y_choice, color=category_choice)
+                        st.plotly_chart(fig)
 
                     elif type_of_plot == 'bar':
-                        cust_data = df[selected_columns_names]
-                        st.bar_chart(cust_data)
+                        fig1 = px.bar(df, x=x_choice, y=y_choice, color=category_choice)
+                        st.plotly_chart(fig1)
 
                     elif type_of_plot == 'line':
-                        cust_data = df[selected_columns_names]
-                        st.line_chart(cust_data)
+                        fig2 = px.line(df, x=x_choice, y=y_choice, color=category_choice)
+                        st.plotly_chart(fig2)
                     # Custom Plot
-                    elif type_of_plot:
-                        cust_plot = df[selected_columns_names].plot(kind=type_of_plot)
-                        st.write(cust_plot)
-                        st.pyplot()
+                    elif type_of_plot == 'scatter':
+                        fig3 = px.scatter(df, x=x_choice, y=y_choice, color=category_choice, opacity=0.5,
+                                         render_mode='auto', template=theme_choice)
+                        # alternatively use box or violin for marginals
+                        # Below for cursor options/crosshairs
+                        st.plotly_chart(fig3)
+                    elif type_of_plot == 'histogram':
+                        fig4 = px.histogram(df, x=x_choice, color=category_choice, opacity=0.5,
+                                            template=theme_choice)
+                        # alternatively use box or violin for marginals
+                        # Below for cursor options/crosshairs
+                        st.plotly_chart(fig4)
+                    elif type_of_plot == 'box':
+                        fig5 = px.box(df, x=x_choice, y=y_choice, color=category_choice,
+                                         template=theme_choice)
+                        # alternatively use box or violin for marginals
+                        # Below for cursor options/crosshairs
+                        st.plotly_chart(fig5)
+                    elif type_of_plot == 'kde':
+                        fig5 = px.histogram(df, x=x_choice, y=y_choice, color=category_choice, opacity=0.5,
+                                         marginal="box", template=theme_choice, hover_data=df.columns)
+                        # alternatively use box or violin for marginals
+                        # Below for cursor options/crosshairs
+                        st.plotly_chart(fig5)
 
         elif choice == 'Design Lines':
             st.subheader("Design Lines")
@@ -517,9 +537,50 @@ def main():
                             fn = 'scatter.png'
                             img = io.BytesIO()
                             plt.savefig(img, format='png')
+        elif choice == 'Geemaps':
+            st.subheader("Geemaps")
+            apps = [{"func": home.app, "title": "Home", "icon": "house"},
+                    {"func": heatmap.app, "title": "Heatmap", "icon": "map"},
+                    {"func": upload.app, "title": "Upload", "icon": "cloud-upload"},
+                   ]
+            titles = [app["title"] for app in apps]
+            titles_lower = [title.lower() for title in titles]
+            icons = [app["icon"] for app in apps]
 
-        elif choice == 'About':
-            st.subheader("About")
+            params = st.experimental_get_query_params()
+
+            if "page" in params:
+                default_index = int(titles_lower.index(params["page"][0].lower()))
+            else:
+                default_index = 0
+
+            with st.sidebar:
+                selected = option_menu(
+                    "Main Menu",
+                    options=titles,
+                    icons=icons,
+                    menu_icon="cast",
+                    default_index=default_index,
+                )
+
+                st.sidebar.title("About")
+                st.sidebar.info(
+                    """
+                    This web [app](https://share.streamlit.io/giswqs/streamlit-template) is maintained by [Qiusheng Wu](https://wetlands.io). You can follow me on social media:
+                        [GitHub](https://github.com/giswqs) | [Twitter](https://twitter.com/giswqs) | [YouTube](https://www.youtube.com/c/QiushengWu) | [LinkedIn](https://www.linkedin.com/in/qiushengwu).
+        
+                    Source code: <https://github.com/giswqs/streamlit-template>
+                    More menu icons: <https://icons.getbootstrap.com>
+                """
+                )
+
+            for app in apps:
+                if app["title"] == selected:
+                    app["func"]()
+                    break                               
+                                            
+                    elif choice == 'About':
+                        st.subheader("About")
 
 if __name__ == '__main__':
     main()
