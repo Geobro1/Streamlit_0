@@ -174,7 +174,7 @@ def main():
 
 
                 if st.button("Generate Plot"):
-                    st.success("Generating Customizable Plot of {} for {}".format(type_of_plot, selected_columns_names))
+                                            st.success("Generating Customizable Plot of {} for {}".format(type_of_plot, selected_columns_names))
                     if type_of_plot == 'area':
                         fig = px.area(df, x=x_choice, y=y_choice, color=category_choice)
                         st.plotly_chart(fig)
