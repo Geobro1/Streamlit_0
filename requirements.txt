@@ -8,5 +8,14 @@ plotly==5.9.0
 plotly-express==0.4.1
 pygam==0.8.0
 statsmodels==0.13.2
-streamlit==1.10.0
+streamlit==1.11.0
 streamlit-aggrid==0.2.3.post2
+--find-links=https://girder.github.io/large_image_wheels GDAL
+geemap
+geopandas
+jupyter-server-proxy
+keplergl
+leafmap
+localtileserver
+nbserverproxy
+streamlit-option-menu
