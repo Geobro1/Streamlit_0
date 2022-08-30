@@ -1,0 +1,5 @@
+name: pyosp
+channels:
+  - conda-forge
+dependencies:
+  
