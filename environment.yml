@@ -1,5 +1,15 @@
 name: pyosp
+
 channels:
   - conda-forge
+
 dependencies:
-  
+  - numpy 
+  - matplotlib 
+  - gdal >=3
+  - shapely >=1.6*
+  - pytest 
+  - nbsphinx
+  - pandoc
+  - ipython
+  - scipy
